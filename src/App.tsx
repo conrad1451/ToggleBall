@@ -5,12 +5,36 @@ import * as React from "react"
 import { useState, useEffect, Suspense } from "react"
 
 import { Canvas } from "@react-three/fiber"
-import { useGLTF, useTexture, Shadow, meshBounds } from "@react-three/drei"
+import {  useTexture  } from "@react-three/drei"
+import { useGLTF, Shadow, meshBounds } from "@react-three/drei"
+
 import { animated, SpringValue, useSpring } from "@react-spring/web"
 import { a } from "@react-spring/three"
+import { GLTF } from "three-stdlib"
+
+
+// source:
+//  https://www.google.com/search?client=firefox-b-1-d&q=TS2503%3A+Cannot+find+namespace+%27THREE%27.
+import * as THREE from 'three';
+
+// source: https://github.com/pmndrs/react-three-fiber/discussions/916
+type GLTFResult = GLTF & {
+  nodes: {
+    rocket_body_Mat_0: THREE.Mesh; 
+    rocket_body_Mat2_0: THREE.Mesh;
+    rocket_body_Mat3_0: THREE.Mesh;
+    Subdivision_Surface_Mat3_0: THREE.Mesh;
+    Subdivision_Surface_Mat3_0_1: THREE.Mesh;
+    window_1_Mat4_0: THREE.Mesh;
+    st_1_Mat6_0: THREE.Mesh;
+  };
+  materials: {};
+};
 
 function Switch({ x, set }: { set: React.Dispatch<React.SetStateAction<number>>; x: SpringValue<number> }) {
-  const { nodes, materials } = useGLTF("/switch.glb")
+  // const { nodes, materials } = useGLTF("/switch.glb") 
+  // TS2503: Cannot find namespace 'THREE'.
+    const { nodes, materials } = useGLTF("/switch.glb") as GLTFResult;
   // const texture = useTexture("/cross.jpg")
   const texture = useTexture("/moon.jpg")
 
@@ -27,6 +51,7 @@ function Switch({ x, set }: { set: React.Dispatch<React.SetStateAction<number>>;
   const color = x.to([0, 1], ["#888", "#2a2a2a"])
 
   return (
+    // TS2339: Property 'track' does not exist on type '{}'.
     <group scale={[1.25, 1.25, 1.25]} dispose={null}>
       <a.mesh receiveShadow castShadow material={materials.track} geometry={nodes.Cube.geometry} material-color={color} material-roughness={0.5} material-metalness={0.8} /> 
        <a.group position-y={0.85} position-z={pZ}>
