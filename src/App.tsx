@@ -1,11 +1,16 @@
-import React, { useState, useEffect, Suspense } from "react"
+
+// import * as React, { useState, useEffect, Suspense } from "react"
+// import React, { useState, useEffect, Suspense } from "react"
+import * as React from "react"
+import { useState, useEffect, Suspense } from "react"
+
 import { Canvas } from "@react-three/fiber"
 import { useGLTF, useTexture, Shadow, meshBounds } from "@react-three/drei"
 import { animated, SpringValue, useSpring } from "@react-spring/web"
 import { a } from "@react-spring/three"
 
 function Switch({ x, set }: { set: React.Dispatch<React.SetStateAction<number>>; x: SpringValue<number> }) {
-  // const { nodes, materials } = useGLTF("/switch.glb")
+  const { nodes, materials } = useGLTF("/switch.glb")
   // const texture = useTexture("/cross.jpg")
   const texture = useTexture("/moon.jpg")
 
@@ -23,8 +28,8 @@ function Switch({ x, set }: { set: React.Dispatch<React.SetStateAction<number>>;
 
   return (
     <group scale={[1.25, 1.25, 1.25]} dispose={null}>
-      {/* <a.mesh receiveShadow castShadow material={materials.track} geometry={nodes.Cube.geometry} material-color={color} material-roughness={0.5} material-metalness={0.8} /> */}
-      <a.group position-y={0.85} position-z={pZ}>
+      <a.mesh receiveShadow castShadow material={materials.track} geometry={nodes.Cube.geometry} material-color={color} material-roughness={0.5} material-metalness={0.8} /> 
+       <a.group position-y={0.85} position-z={pZ}>
         <a.mesh receiveShadow castShadow raycast={meshBounds} rotation-x={rX} onClick={onClick} onPointerOver={onPointerOver} onPointerOut={onPointerOut}>
           <sphereGeometry args={[0.8, 64, 64]} />
           <a.meshStandardMaterial roughness={0.5} map={texture} />
